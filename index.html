@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOP</title>
+    
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding: 15px;
+            text-align: center;
+        }
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Products</h1>
+        <div class="row" id="product-container">
+        </div>
+    </div>
+   
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('https://fakestoreapi.com/products')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('product-container');
+                    data.forEach(product => {
+                        const productCard = `
+                            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                                <div class="product-card">
+                                    <img src="${product.image}" alt="${product.title}" class="img-fluid">
+                                    <h5 class="my-2">${product.title}</h5>
+                                    <p class="text-muted">$${product.price}</p>
+                                    <p>${product.description}</p>
+                                </div>
+                            </div>
+                        `;
+                        container.innerHTML += productCard;
+                    });
+                })
+                .catch(error => console.error('Error fetching products:', error));
+        });
+    </script>
+</body>
+</html>
